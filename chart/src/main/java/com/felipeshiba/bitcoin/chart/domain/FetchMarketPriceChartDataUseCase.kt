@@ -1,0 +1,3 @@
+package com.felipeshiba.bitcoin.chart.domain
+
+class FetchMarketPriceChartDataUseCase
