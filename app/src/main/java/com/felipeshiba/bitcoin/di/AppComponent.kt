@@ -1,25 +1,29 @@
 package com.felipeshiba.bitcoin.di
 
 import android.app.Application
-import com.felipeshiba.bitcoin.CustomApp
-import com.felipeshiba.core.NetworkModule
+import com.felipeshiba.core.di.NetworkModule
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule
-import javax.inject.Singleton
 
-@Singleton
-@Component(modules = [AndroidInjectionModule::class, AppModule::class, ActivityModule::class, NetworkModule::class])
+@Component(
+    modules = [
+        AndroidInjectionModule::class,
+        ActivityModule::class,
+        NetworkModule::class
+    ]
+)
 interface AppComponent {
     @Component.Builder
     interface Builder {
         @BindsInstance
         fun application(application: Application): Builder
 
-        fun networkModule(module: NetworkModule): Builder
+        @BindsInstance
+        fun networkModule(networkModule: NetworkModule): Builder
 
         fun build(): AppComponent
     }
 
-    fun inject(app: CustomApp)
+    fun inject(app: Application)
 }

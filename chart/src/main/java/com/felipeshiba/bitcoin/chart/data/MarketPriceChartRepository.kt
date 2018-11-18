@@ -1,5 +1,7 @@
 package com.felipeshiba.bitcoin.chart.data
 
+import io.reactivex.Single
+
 interface MarketPriceChartRepository {
-    fun getChartValues()
+    val chartValues: Single<Any>
 }

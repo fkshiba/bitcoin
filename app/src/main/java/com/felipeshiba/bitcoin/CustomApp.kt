@@ -4,8 +4,8 @@ import android.app.Activity
 import android.app.Application
 import android.util.Log
 import com.facebook.stetho.Stetho
-import com.felipeshiba.bitcoin.di.DaggerAppComponent
-import com.felipeshiba.core.NetworkModule
+import com.felipeshiba.bitcoin.di.inject
+import com.felipeshiba.core.BuildConfig
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
@@ -28,11 +28,7 @@ class CustomApp : Application(), HasActivityInjector {
     }
 
     private fun initDagger() {
-        DaggerAppComponent.builder()
-            .application(this)
-            .networkModule(NetworkModule("https://api.blockchain.info/"))
-            .build()
-            .inject(this)
+        inject(this)
     }
 
     private fun initTimber() {

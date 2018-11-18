@@ -1,16 +1,24 @@
-package com.felipeshiba.core
+package com.felipeshiba.core.di
 
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
+import javax.inject.Named
 
 @Module
-class NetworkModule(private val baseUrl: String) {
+class NetworkModule {
 
     @Provides
-    fun provideRetrofit(): Retrofit {
+    @Named("baseUrl")
+    fun provideBaseUrl(): String {
+        return "https://api.blockchain.info/"
+    }
+
+    @Provides
+    @Named("retrofit")
+    fun provideRetrofit(@Named("baseUrl") baseUrl: String): Retrofit {
         return Retrofit.Builder()
             .baseUrl(baseUrl)
             .addConverterFactory(MoshiConverterFactory.create())
