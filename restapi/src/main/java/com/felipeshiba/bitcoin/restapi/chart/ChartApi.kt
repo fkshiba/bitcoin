@@ -5,6 +5,6 @@ import retrofit2.http.GET
 
 interface ChartApi {
 
-    @GET("charts/market-price")
+    @GET("charts/market-price?timespan=4weeks")
     fun fetchBitcoinData(): Single<MarketPriceChartResponse>
 }

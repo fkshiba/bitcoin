@@ -13,6 +13,7 @@ import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
+import com.github.mikephil.charting.formatter.LargeValueFormatter
 import kotlinx.android.synthetic.main.activity_chart.*
 import javax.inject.Inject
 
@@ -55,6 +56,11 @@ class ChartActivity : AppCompatActivity() {
         with(chart) {
             xAxis.position = XAxis.XAxisPosition.BOTTOM
             axisRight.isEnabled = false
+
+            axisLeft.valueFormatter = LargeValueFormatter()
+            xAxis.valueFormatter = DateAxisValueFormatter()
+            xAxis.setDrawGridLines(false)
+
             data = lineData
             invalidate()
         }
