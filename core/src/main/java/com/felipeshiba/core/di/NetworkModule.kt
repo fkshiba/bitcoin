@@ -17,7 +17,6 @@ class NetworkModule {
     }
 
     @Provides
-    @Named("retrofit")
     fun provideRetrofit(@Named("baseUrl") baseUrl: String): Retrofit {
         return Retrofit.Builder()
             .baseUrl(baseUrl)
