@@ -6,6 +6,9 @@ buildscript {
     ext {
         kotlin_version = '1.3.10'
         dagger_version = '2.19'
+        mockk_version = '1.8.9'
+        junit_version = '4.12'
+        archcomponents_version = '1.1.1'
     }
 
     repositories {

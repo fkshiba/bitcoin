@@ -26,4 +26,9 @@ dependencies {
     kapt "com.google.dagger:dagger-compiler:$dagger_version"
     kapt "com.google.dagger:dagger-android-processor:$dagger_version"
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0-alpha'
+
+    // Unit test
+    testImplementation "junit:junit:$junit_version"
+    testImplementation "io.mockk:mockk:$mockk_version"
+    testImplementation "android.arch.core:core-testing:$archcomponents_version"
 }
