@@ -5,12 +5,10 @@ import android.app.Application
 import android.util.Log
 import com.facebook.stetho.Stetho
 import com.felipeshiba.bitcoin.di.inject
-import com.felipeshiba.core.BuildConfig
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
 import io.reactivex.plugins.RxJavaPlugins
-import timber.log.Timber
 import javax.inject.Inject
 
 class CustomApp : Application(), HasActivityInjector {
@@ -22,7 +20,6 @@ class CustomApp : Application(), HasActivityInjector {
         super.onCreate()
 
         initDagger()
-        initTimber()
         handleRxErrors()
         initStetho()
     }
@@ -31,16 +28,12 @@ class CustomApp : Application(), HasActivityInjector {
         inject(this)
     }
 
-    private fun initTimber() {
-        if (BuildConfig.DEBUG) {
-            Timber.plant(Timber.DebugTree())
-        }
-    }
+    private val tag = CustomApp::class.simpleName
 
     private fun handleRxErrors() {
         RxJavaPlugins.setErrorHandler {
-            Timber.e(Log.getStackTraceString(it))
-            Timber.e(it.localizedMessage)
+            Log.e(tag, Log.getStackTraceString(it))
+            Log.e(tag, it.localizedMessage)
         }
     }
 

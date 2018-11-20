@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">BitcoinChart</string>
-    <string name="title_chart">Bitcoin Chart</string>
+    <string name="title_chart" tools:ignore="UnusedResources">Bitcoin Chart</string>
 </resources>
