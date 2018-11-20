@@ -39,13 +39,16 @@ class ChartViewModelTest {
 
     @Test
     fun getChartData_success() {
-        val observer = mockk<Observer<ChartInfo>>()
-        val slot = slot<ChartInfo>()
+        val observer = mockk<Observer<ChartViewModel.State?>>()
+        val slot = slot<ChartViewModel.State>()
         every { observer.onChanged(capture(slot)) } just runs
-        chartViewModel.chartData.observeForever(observer)
+        chartViewModel.stateLiveData.observeForever(observer)
 
-        verify(exactly = 1) { observer.onChanged(chartInfo) }
-        assertEquals(chartInfo, slot.captured)
-        chartViewModel.chartData.removeObserver(observer)
+        verify(ordering = Ordering.SEQUENCE) {
+            observer.onChanged(ChartViewModel.State.Loading)
+            observer.onChanged(ChartViewModel.State.Content(chartInfo))
+            observer.onChanged(ChartViewModel.State.Finish)
+        }
+        chartViewModel.stateLiveData.removeObserver(observer)
     }
 }

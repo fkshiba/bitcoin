@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.widget.Toast
 import com.felipeshiba.bitcoin.chart.R
 import com.felipeshiba.bitcoin.chart.data.model.ChartInfo
 import com.felipeshiba.bitcoin.chart.di.inject
@@ -25,20 +26,33 @@ class ChartActivity : AppCompatActivity() {
 
     private lateinit var chartViewModel: ChartViewModel
 
-    private val chartDataObserver = Observer<ChartInfo> {
-        it?.let(this::drawChart)
+    private val stateObserver = Observer<ChartViewModel.State?> {
+        it?.let(this::handleState)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chart)
         inject()
-        initChart()
+        initViewModel()
     }
 
-    private fun initChart() {
+    private fun initViewModel() {
         chartViewModel = ViewModelProviders.of(this, viewModelFactory).get(ChartViewModel::class.java)
-        chartViewModel.chartData.observe(this, chartDataObserver)
+        chartViewModel.stateLiveData.observe(this, stateObserver)
+    }
+
+    private fun handleState(state: ChartViewModel.State) {
+        when (state) {
+            is ChartViewModel.State.Loading -> showLoading()
+            is ChartViewModel.State.Content -> drawChart(state.data)
+            is ChartViewModel.State.Error -> showError(state.message)
+            is ChartViewModel.State.Empty -> showEmpty()
+        }
+    }
+
+    private fun showLoading() {
+        Toast.makeText(this, getString(R.string.loading_state), Toast.LENGTH_LONG).show()
     }
 
     private fun drawChart(chartInfo: ChartInfo) {
@@ -64,5 +78,13 @@ class ChartActivity : AppCompatActivity() {
             data = lineData
             invalidate()
         }
+    }
+
+    private fun showError(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+    }
+
+    private fun showEmpty() {
+        Toast.makeText(this, getString(R.string.empty_state), Toast.LENGTH_LONG).show()
     }
 }
